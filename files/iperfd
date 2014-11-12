@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# iperfd iperf network bandwidth test
+#
+# chkconfig: 2345 80 30
+# description: iperf network bandwidth test
+# pidfile: /var/run/iperf.pid
+# Source function library.
+
+. /etc/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+start() {
+echo -n "Starting iperfd: "
+/usr/bin/iperf3 -s -D -p 5001 >/dev/null 2>&1
+touch /var/lock/subsys/iperfd
+pidofproc iperf3 > /var/run/iperf.pid
+return 1
+}
+
+stop() {
+echo -n "Shutting down iperfd: "
+killproc iperf3
+rm -f /var/lock/subsys/iperfd
+rm -f /var/run/iperf.pid
+return 1
+}
+
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+status)
+status iperf3
+;;
+restart)
+stop
+start
+;;
+*)
+echo "Usage: iperfd {start|stop|status|restart}"
+exit 1
+;;
+esac
+exit $?
