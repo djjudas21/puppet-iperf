@@ -1,0 +1,14 @@
+{
+  "name": "jgazeley/iperf",
+  "version": "0.1.0",
+  "author": "jgazeley",
+  "summary": "Install and run Iperf as a daemon",
+  "license": "Apache 2.0",
+  "source": "https://github.com/djjudas21/puppet-iperf",
+  "project_page": "https://github.com/djjudas21/puppet-iperf",
+  "issues_url": "https://github.com/djjudas21/puppet-iperf/issues",
+  "dependencies": [
+    {"version_requirement":">= 1.0.0","name":"puppetlabs-stdlib"}
+  ]
+}
+
