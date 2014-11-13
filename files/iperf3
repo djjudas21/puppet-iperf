@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# iperfd iperf network bandwidth test
+# iperfd iperf3 network bandwidth test
 #
 # chkconfig: 2345 80 30
-# description: iperf network bandwidth test
-# pidfile: /var/run/iperf.pid
+# description: iperf3 network bandwidth test
+# pidfile: /var/run/iperf3.pid
 # Source function library.
 
 . /etc/init.d/functions
@@ -17,17 +17,17 @@
 
 start() {
 echo -n "Starting iperfd: "
-/usr/bin/iperf3 -s -D -p 5001 >/dev/null 2>&1
-touch /var/lock/subsys/iperfd
-pidofproc iperf3 > /var/run/iperf.pid
+/usr/bin/iperf3 -s -D >/dev/null 2>&1
+touch /var/lock/subsys/iperf3
+pidofproc iperf3 > /var/run/iperf3.pid
 return 1
 }
 
 stop() {
-echo -n "Shutting down iperfd: "
-killproc iperf3
-rm -f /var/lock/subsys/iperfd
-rm -f /var/run/iperf.pid
+echo -n "Shutting down iperf3: "
+killproc iperf
+rm -f /var/lock/subsys/iperf3
+rm -f /var/run/iperf3.pid
 return 1
 }
 
@@ -46,7 +46,7 @@ stop
 start
 ;;
 *)
-echo "Usage: iperfd {start|stop|status|restart}"
+echo "Usage: iperf3 {start|stop|status|restart}"
 exit 1
 ;;
 esac
