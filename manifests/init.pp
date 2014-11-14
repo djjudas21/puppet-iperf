@@ -1,41 +1,90 @@
-# == Class: iperf
-#
-# Full description of class iperf here.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { 'iperf':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2014 Your name here, unless otherwise noted.
-#
-class iperf {
+# Install Iperf
+class iperf (
+  $firewall = false,
+  $restart = false,
+  $version = 3,
+) {
 
+  if member($version, '2') {
+    # Install iperf2
 
+    # Install package
+    package { 'iperf':
+      ensure => installed,
+    }
+
+    # Install init script
+    file { '/etc/init.d/iperf2':
+      source => 'puppet:///modules/iperf/iperf2',
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root',
+      notify => Service['iperf2'],
+    }
+
+    # Start the service
+    service { 'iperf2':
+      ensure     => 'running',
+      enable     => true,
+      hasrestart => true,
+      require    => [
+        Package['iperf'],
+        File['/etc/init.d/iperf2'],
+      ],
+    }
+
+    # Add firewall rule
+    if ($firewall) {
+      firewall { '100-iperf2':
+        proto  => 'tcp',
+        dport  => '5001',
+        action => 'accept',
+      }
+    }
+
+    # Kick iperfd regularly
+    if ($restart) {
+      cron { 'iperfd':
+        command => '',
+      }
+    }
+  }
+
+  if member($version, '3') {
+    # Install iperf3
+
+    # Install package
+    package { 'iperf3':
+      ensure => installed,
+    }
+
+    # Install init script
+    file { '/etc/init.d/iperf3':
+      source => 'puppet:///modules/iperf/iperf3',
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root',
+      notify => Service['iperf3'],
+    }
+
+    # Start the service
+    service { 'iperf3':
+      ensure     => 'running',
+      enable     => true,
+      hasrestart => true,
+      require    => [
+        Package['iperf3'],
+        File['/etc/init.d/iperf3'],
+      ],
+    }
+
+    # Add firewall rule
+    if ($firewall) {
+      firewall { '100-iperf3':
+        proto  => 'tcp',
+        dport  => '5201',
+        action => 'accept',
+      }
+    }
+  }
 }
