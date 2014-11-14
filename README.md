@@ -3,65 +3,40 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with iperf](#setup)
-    * [What iperf affects](#what-iperf-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with iperf](#beginning-with-iperf)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+2. [Usage - Configuration options and additional functionality](#usage)
+3. [Limitations - OS compatibility, etc.](#limitations)
+4. [Development - Guide for contributing to the module](#development)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module installs [Iperf](https://iperf.fr/) and configures it to run as a daemon.
 
-## Module Description
-
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
-
-## Setup
-
-### What iperf affects
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-### Beginning with iperf
-
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+It installs Iperf 3 from distro repos but sets it to listen on TCP port 5001, which is
+the default for Iperf 2. This is because many Iperf clients distributed are version 2.
+If anyone raises an issue, I'll add support for customising the listen port.
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+This module is simple to use. The only parameter is to enable to disable automatic
+firewall rules.
 
-## Reference
+```puppet
+class { 'iperf':
+  firewall => true,
+}
+```
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+### `firewall`
+Open the firewall port automatically. Default: `false`
+
+### `restart`
+Periodically restart iperf2 via cron, since it has a bug where it consumes 100% CPU.
+Default: `false`
+
+### `version`
+Specify an array of versions you wish to install. Multiple versions are OK. Available
+options: `2`, `3`.
+
 
 ## Limitations
 
@@ -71,9 +46,3 @@ This is where you list OS compatibility, version compatibility, etc.
 
 Since your module is awesome, other users will want to play with it. Let them
 know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
