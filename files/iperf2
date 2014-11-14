@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# iperfd iperf2 network bandwidth test
+# iperf2 iperf2 network bandwidth test
 #
 # chkconfig: 2345 80 30
 # description: iperf2 network bandwidth test
@@ -16,7 +16,7 @@
 [ ${NETWORKING} = "no" ] && exit 0
 
 start() {
-echo -n "Starting iperfd: "
+echo -n "Starting iperf2: "
 /usr/bin/iperf2 -s -D >/dev/null 2>&1
 touch /var/lock/subsys/iperf2
 pidofproc iperf2 > /var/run/iperf2.pid
