@@ -3,10 +3,14 @@ class iperf (
   $firewall = false,
   $restart = false,
   $version = 3,
+  $motd = false,
 ) {
 
   if member($version, '2') {
     # Install iperf2
+    if $motd {
+      motd::register{'Iperf 2 server': }
+    }
 
     # Install package
     package { 'iperf':
@@ -52,6 +56,9 @@ class iperf (
 
   if member($version, '3') {
     # Install iperf3
+    if $motd {
+      motd::register{'Iperf 3 server': }
+    }
 
     # Install package
     package { 'iperf3':

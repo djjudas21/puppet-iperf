@@ -37,6 +37,10 @@ Default: `false`
 Specify an array of versions you wish to install. Multiple versions are OK. Available
 options: `2`, `3`.
 
+### `motd`
+Whether you want this module to automatically insert a service into motd using
+[jgazeley/motd](https://forge.puppetlabs.com/jgazeley/motd). Default: `false`.
+
 
 ## Limitations
 
