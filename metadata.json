@@ -1,6 +1,6 @@
 {
   "name": "jgazeley/iperf",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "jgazeley",
   "summary": "Install and run Iperf as a daemon",
   "license": "Apache 2.0",
