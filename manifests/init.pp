@@ -2,7 +2,7 @@
 class iperf (
   $firewall = false,
   $restart = false,
-  $version = 3,
+  $version = ['3'],
   $motd = false,
 ) {
 
