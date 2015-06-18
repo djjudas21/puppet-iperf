@@ -1,5 +1,5 @@
 {
-  "name": "jgazeley/iperf",
+  "name": "jgazeley-iperf",
   "version": "0.2.1",
   "author": "jgazeley",
   "summary": "Install and run Iperf as a daemon",
